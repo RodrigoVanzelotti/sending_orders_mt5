@@ -6,45 +6,13 @@ import numpy as np
 import os
 import time
 
-
-teste_path = os.path.normpath(r'C:\Users\rodri\OneDrive\Área de Trabalho\credentials_test.json')
-not_teste_path = os.path.normpath(r'C:\Users\rodri\OneDrive\Área de Trabalho\credentials.json')
-
-is_test = True
-FILE_PATH = teste_path if is_test else not_teste_path
+from main_functions import *
 
 # Inicialização ======================================
-with open(FILE_PATH) as f:
-    credentials = json.load(f)
-# Caso o mt5 nao inicialize, quit()
-if not mt5.initialize(login=credentials['loginJson'], password=credentials['passwordJson'], server=credentials['serverJson'], path="C:\\Program Files\\MetaTrader 5 Terminal\\terminal64.exe"):
-    print("initialize() failed, error code = ", mt5.last_error())
-    mt5.shutdown(); quit()
-
-account_currency=mt5.account_info().currency
-print("Moeda corrente:", account_currency)
+intialize_mt5()
+symbol = set_symbol("ITUB4")
  
-# preparamos o ativo
-symbol="PETR4"
-symbol_info = mt5.symbol_info(symbol)
-if symbol_info is None:
-    print(symbol, "não foi encontrado, não é possível chamar order_check()")
-    mt5.shutdown()
-    quit()
- 
-# se o símbolo não estiver disponível no MarketWatch, adicionamos
-'''
-MarketWatch é um site que fornece informações financeiras, notícias de negócios, análises e dados do mercado de ações. 
-Junto com The Wall Street Journal e Barron's, é uma subsidiária da Dow Jones & Company, propriedade da News Corp
-'''
-if not symbol_info.visible:
-    print(symbol, "não está visível, tentando conectar...")
-    if not mt5.symbol_select(symbol,True):
-        print(f"symbol_select({symbol}) falhou, exit")
-        mt5.shutdown()
-        quit()
- 
-# preparamos a solicitação
+# preparamos a solicitação ============================
 point = mt5.symbol_info(symbol).point
 ask = mt5.symbol_info_tick(symbol).ask
 request = {

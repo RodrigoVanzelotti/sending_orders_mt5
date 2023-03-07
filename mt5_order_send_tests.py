@@ -6,51 +6,12 @@ import numpy as np
 import os
 import time
 
-def error_quit(message=None):
-    print(message)
-    mt5.shutdown(); quit()
-
-def order_result_log(result_object):
-    print(f"2. order_send falhou, retcode={result.retcode}")
-    # solicitamos o resultado na forma de dicionário e exibimos elemento por elemento
-    result_dict = result_object._asdict()
-    for field in result_dict.keys():
-        print(f"   {field}={result_dict[field]}")
-        #se esta for uma estrutura de uma solicitação de negociação, também a exibiremos elemento a elemento
-        if field == "request":
-            traderequest_dict = result_dict[field]._asdict()
-            for tradereq_filed in traderequest_dict:
-                print(f"\ttraderequest: {tradereq_filed}={traderequest_dict[tradereq_filed]}")
- 
-
-teste_path = os.path.normpath(r'C:\Users\rodri\OneDrive\Área de Trabalho\credentials_test.json')
-not_teste_path = os.path.normpath(r'C:\Users\rodri\OneDrive\Área de Trabalho\credentials.json')
-
-is_test = True
-FILE_PATH = teste_path if is_test else not_teste_path
+from main_functions import *
 
 # Inicialização ======================================
-with open(FILE_PATH) as f:
-    credentials = json.load(f)
-# Caso o mt5 nao inicialize, quit()
-if not mt5.initialize(login=credentials['loginJson'], password=credentials['passwordJson'], server=credentials['serverJson'], path="C:\\Program Files\\MetaTrader 5 Terminal\\terminal64.exe"):
-    error_quit(f"initialize() failed, error code = {mt5.last_error()}")
+intialize_mt5()
+symbol = set_symbol("ITUB4")
 
-account_currency = mt5.account_info().currency
-print("Moeda corrente:",account_currency)
-
-# preparamos o ativo
-symbol = "ITUB4"
-symbol_info = mt5.symbol_info(symbol)
-if symbol_info is None:
-    error_quit(f"{symbol} não foi encontrado, não é possível chamar order_check()")
- 
-# se o símbolo não estiver disponível no MarketWatch, adicionamos
-if not symbol_info.visible:
-    print(symbol, "não está visível, tentando conectar...")
-    if not mt5.symbol_select(symbol,True):
-        error_quit(f"symbol_select({symbol}) falhou, exit")
- 
 # ORDEM DE COMPRA ==================================
 lot = 100.0
 point = mt5.symbol_info(symbol).point
@@ -119,15 +80,7 @@ if result.retcode != mt5.TRADE_RETCODE_DONE:
     print("   resultado",result)
 else:
     print(f"4. posição #{position_id} closed, {result}")
-   # solicitamos o resultado na forma de dicionário e exibimos elemento por elemento
-    result_dict = result._asdict()
-    for field in result_dict.keys():
-        print(f"   {field}={result_dict[field]}")
-        #se esta for uma estrutura de uma solicitação de negociação, também a exibiremos elemento a elemento
-        if field=="request":
-            traderequest_dict=result_dict[field]._asdict()
-            for tradereq_filed in traderequest_dict:
-                print(f"       traderequest: {tradereq_filed}={traderequest_dict[tradereq_filed]}")
- 
+    order_result_log(result)
+    
 # concluímos a conexão ao terminal MetaTrader 5
 mt5.shutdown()
