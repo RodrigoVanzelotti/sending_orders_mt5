@@ -39,6 +39,7 @@ request = {
 result = mt5.order_check(request)._asdict()
 print(result['retcode'], result['comment'])
 
+
 # ORDER_SEND() =======================================
 # Primeiro executamos uma ordem de compra do ativo, damos 2 segundos e o vendemos
 # ORDEM DE COMPRA =====================
@@ -76,11 +77,11 @@ print('POSIÇÃO:', position_id)
 
 print(f"1. order_send(): by {symbol} {volume} lots at {price} desvio={deviation} points")
 print("2. order_send() executada:")
-print(f"   posição aberta: POSITION_TICKET={position_id}")
+print(f"\tposição aberta: POSITION_TICKET={position_id}")
 
 # tempo de processamento e redefinição da posição
 time.sleep(2)
-print(f"   timer 2s antes de fechar a posição #{position_id}")
+print(f"\ttimer 2s antes de fechar a posição #{position_id}")
 
 # ORDEM DE FECHAMENTO =================
 price = mt5.symbol_info_tick(symbol).bid
@@ -106,7 +107,7 @@ result = mt5.order_send(request)
 print(f"3. close position #{position_id}: sell {symbol} {volume} lots at {price} desvio={deviation} points")
 if result.retcode != mt5.TRADE_RETCODE_DONE:
     print(f"4. order_send falhou, retcode={result.retcode}")
-    print("   resultado",result)
+    print("\tresultado",result)
 else:
     print(f"4. posição #{position_id} closed, {result}")
     order_result_log(result)

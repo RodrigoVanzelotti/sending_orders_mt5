@@ -34,17 +34,7 @@ request = {
 result = mt5.order_check(request)
 print(result)
 # solicitamos o resultado na forma de um dicionário e exibimos elemento por elemento
-result_dict=result._asdict()
-for field in result_dict.keys():
-    print(f"   {field}={result_dict[field]}")
-    # se esta for uma estrutura de uma solicitação de negociação, também a exibiremos elemento a elemento
-    if field=="request":
-        traderequest_dict=result_dict[field]._asdict()
-        for tradereq_filed in traderequest_dict:
-            print(f"       traderequest: {tradereq_filed}={traderequest_dict[tradereq_filed]}")
- 
-# O request enviado esta armazendado no request, caso queira checar
-# request_trade = result._asdict()['request']
+order_result_log(result) 
 
 # concluímos a conexão ao terminal MetaTrader 5
 # mt5.shutdown()
