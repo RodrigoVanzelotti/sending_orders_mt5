@@ -2,6 +2,7 @@ import MetaTrader5 as mt5
 import time
 import json
 import os
+from datetime import datetime
 
 # Funções para diminuir repetições de código
 def error_quit(message):
@@ -9,7 +10,6 @@ def error_quit(message):
     mt5.shutdown(); quit()
 
 def order_result_log(result_object):
-    print(f"2. order_send falhou, retcode={result.retcode}")
     # solicitamos o resultado na forma de dicionário e exibimos elemento por elemento
     result_dict = result_object._asdict()
     for field in result_dict.keys():
@@ -75,7 +75,7 @@ request = {
     "magic": 234000,
     "comment": "asimov python script",
     "type_time": mt5.ORDER_TIME_GTC,            # ORDER_TIME_GTC -> A ordem permanecerá na fila até ser tirada
-    "type_filling": mt5.ORDER_FILLING_RETURN,   # ORDER_FILLING RETURN -> Não entendi NOTE perguntar pro T
+    "type_filling": mt5.ORDER_FILLING_RETURN,   # ORDER_FILLING RETURN -> 
 }
 
 # verificamos e exibimos o resultado como está
@@ -97,8 +97,8 @@ request = {
     "volume": lot,
     "type": mt5.ORDER_TYPE_BUY,         # ordem de mercado para compra
     "price": price,                     # preço ask
-    "sl": price - 100 * point,
-    "tp": price + 100 * point,
+    "sl": price - 100 * point,          # não é necessário
+    "tp": price + 100 * point,          # não é necessário
     "deviation": deviation,
     "magic": 234000,
     "comment": "asimov python script open",
@@ -120,12 +120,10 @@ print('POSIÇÃO:', position_id)
 print(f"1. order_send(): by {symbol} {lot} lots at {price} desvio={deviation} points")
 print("2. order_send() executada:")
 print(f"   posição aberta: POSITION_TICKET={position_id}")
-print(f"   timer 2s antes de fechar a posição #{position_id}")
 
 # tempo de processamento e redefinição da posição
 time.sleep(2)
-position_id = result.order
-print('POSIÇÃO:', position_id)
+print(f"   timer 2s antes de fechar a posição #{position_id}")
 
 # ORDEM DE FECHAMENTO =================
 price = mt5.symbol_info_tick(symbol).bid
@@ -155,6 +153,39 @@ if result.retcode != mt5.TRADE_RETCODE_DONE:
 else:
     print(f"4. posição #{position_id} closed, {result}")
     order_result_log(result)
- 
+
+
+# Quantas Ordens? ====================================
+from_date=datetime(2020,1,1)
+to_date=datetime.now()
+history_orders=mt5.history_orders_total(from_date, datetime.now())
+if history_orders>0:
+    print("Total history orders=",history_orders)
+else:
+    print("Orders not found in history")
+
+
+# Como consultar uma ordem específica ================
+# Existem 3 maneiras:
+#       1. Bilhete de posição
+mt5.positions_get(position='aaaa')
+#       2. Bilhete da ordem
+mt5.positions_get(ticket=position_id)
+# order = pending order
+# position = opened order
+#       3. dates and group -> datetime
+from_date=datetime(2020,1,1)
+to_date=datetime.now()
+mt5.history_orders_get(
+    from_date, to_date #, group -> optional
+    
+)
+
+
+
+
+
+
+
 # concluímos a conexão ao terminal MetaTrader 5
 mt5.shutdown()
