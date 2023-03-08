@@ -1,10 +1,5 @@
 import MetaTrader5 as mt5
-import json
-from datetime import datetime
 import pandas as pd
-import numpy as np
-import os
-import time
 
 from main_functions import *
 
@@ -12,13 +7,33 @@ from main_functions import *
 intialize_mt5()
 symbol = set_symbol("ITUB4")
 
-# Seguir daqui amanha
-'''
-1. Precisa definir o symbol?
-2. Seguir transcrevendo código relativo a positions
-3. Documentação de oq falta cobrir está no notion
-https://www.notion.so/Posi-es-e-Hist-rico-de-Orders-no-MetaTrader5-45e89d87f4604f90b91c3cd0a17f1336
-4. Fazer a classe e conversar com o Adri na quinta ao invés de quarta
-5. Avisar o Lucas que um dos artigos ta pronto
-'''
+# obtemos as posições abertas com base no ativo escolhido (ITUB4)
+positions=mt5.positions_get(symbol=symbol)
+if positions == None:
+    print(f"Sem positions em {symbol}, error code={mt5.last_error()}")
+else:
+    # imprimimos todas as posições abertas
+    print(f"Total de positions com ITUB4 = {len(positions)}")
+    for position in positions:
+        print(position)
+ 
+# definimos o grupo de pesquisa
+group_search = "*USD*"
 
+# obtemos uma lista de posições com base em símbolos cujos nomes contenham "*USD*"
+usd_positions=mt5.positions_get(group="group_search")
+if usd_positions==None:
+    print(f"Sem positions com o parâmetro group={group_search}, error code={mt5.last_error()}")
+else:
+    print(f"positions_get(group={group_search})={len(usd_positions)}")
+    # exibimos essas posições como uma tabela usando pandas.DataFrame
+    df=pd.DataFrame(list(usd_positions),columns=usd_positions[0]._asdict().keys())
+    df['time'] = pd.to_datetime(df['time'], unit='s')
+    df.drop(['time_update', 'time_msc', 'time_update_msc', 'external_id'], axis=1, inplace=True)
+    print(df)
+ 
+# A pesquisa por bilhete necessita de um número específico de operação, porém o padrão seria
+# mt5.positions_get(ticket=0000000)
+
+# concluímos a conexão ao terminal MetaTrader 5
+mt5.shutdown()
