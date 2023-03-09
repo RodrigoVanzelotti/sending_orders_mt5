@@ -13,7 +13,7 @@ if positions == None:
     print(f"Sem positions em {symbol}, error code={mt5.last_error()}")
 else:
     # imprimimos todas as posições abertas
-    print(f"Total de positions com ITUB4 = {len(positions)}")
+    print(f"Total de positions com {symbol} = {len(positions)}")
     for position in positions:
         print(position)
  

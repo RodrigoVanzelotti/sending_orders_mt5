@@ -6,7 +6,6 @@ from main_functions import *
 
 # Inicialização ======================================
 intialize_mt5()
-symbol = set_symbol("ITUB4")
 
 # obtemos o número de ordens no histórico dado um filtro de group
 # from_date e to_date ja foram definidos no inicio do artigo

@@ -8,11 +8,11 @@ intialize_mt5()
 symbol = set_symbol("ITUB4")
 
 # exibimos informações sobre ordens ativas do símbolo ITUB4
-orders=mt5.orders_get(symbol="ITUB4")
+orders = mt5.orders_get(symbol=symbol)
 if orders is None:
-    print(f"Sem orders em ITUB4, error code={mt5.last_error()}")
+    print(f"Sem orders em {symbol}, error code={mt5.last_error()}")
 else:
-    print(f"Total orders em ITUB4: {len(orders)}")
+    print(f"Total orders em {symbol}: {len(orders)}")
     # exibimos todas as ordens ativas
     for order in orders:
         print(order)
