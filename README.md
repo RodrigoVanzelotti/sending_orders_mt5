@@ -12,4 +12,4 @@ In this repo you'll learn to use some of the main MetaTrader 5 functions, all ex
 - history_deals_total()
 - history_deals_get()
 
-Also a summary of the content created and a link to my post blethering about it.
+Also a summary of the content created and a link to my post blathering about it.
