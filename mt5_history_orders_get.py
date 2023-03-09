@@ -10,8 +10,8 @@ symbol = set_symbol("ITUB4")
 
 # obtemos o número de ordens no histórico dado um filtro de group
 # from_date e to_date ja foram definidos no inicio do artigo
-from_date=datetime(2020,1,1)
-to_date=datetime.now()
+from_date = datetime(2020,1,1)
+to_date = datetime.now()
 
 # definimos o grupo de pesquisa
 group_search = "*USD*"
