@@ -2,6 +2,8 @@ import MetaTrader5 as mt5
 import pandas as pd
 import datetime
 
+date_from = datetime(2020,1,1)
+date_to = datetime.now()
 from main_functions import *
 
 # Inicialização ======================================
@@ -46,3 +48,9 @@ else:
  
 # concluímos a conexão ao terminal MetaTrader 5
 mt5.shutdown()
+
+# Todas as funções aqui retornaram um inteiro
+mt5.orders_total()                              # Total de ordens
+mt5.positions_total()                           # Total de posições abertas
+mt5.history_orders_total(date_from, date_to)    # Total de ordens no histórico de negociação
+mt5.history_deals_total(date_from, date_to)     # Total de transações no histórico de negociação (deals)
