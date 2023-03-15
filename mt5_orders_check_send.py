@@ -26,13 +26,13 @@ request = {
     "volume": volume,                           
     "type": mt5.ORDER_TYPE_BUY,                 # ORDER_TYPE_BUY -> Ordem para compra
     "price": ask,                               # preço ask
-    "sl": ask-100*point,
-    "tp": ask+100*point,
-    "deviation": 10,
-    "magic": 234000,
-    "comment": "asimov python script",
-    "type_time": mt5.ORDER_TIME_GTC,            # ORDER_TIME_GTC -> A ordem permanecerá na fila até ser tirada
-    "type_filling": mt5.ORDER_FILLING_RETURN,   # ORDER_FILLING RETURN -> No caso de uma execução parcial, a ordem de mercado ou limit com um volume residual não é retirada e continua
+    # "sl": ask-100*point,
+    # "tp": ask+100*point,
+    # "deviation": 10,
+    # "magic": 234000,
+    # "comment": "asimov python script",
+    # "type_time": mt5.ORDER_TIME_GTC,            # ORDER_TIME_GTC -> A ordem permanecerá na fila até ser tirada
+    # "type_filling": mt5.ORDER_FILLING_RETURN,   # ORDER_FILLING RETURN -> No caso de uma execução parcial, a ordem de mercado ou limit com um volume residual não é retirada e continua
 }
 
 # verificamos e exibimos o resultado como está
