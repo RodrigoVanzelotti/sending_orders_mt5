@@ -22,9 +22,8 @@ def intialize_mt5(test=True):
     account_currency = mt5.account_info().currency
     print("Moeda corrente:", account_currency)
         
-def set_symbol(symb):
+def set_symbol(symbol):
     # preparamos o ativo
-    symbol = symb
     symbol_info = mt5.symbol_info(symbol)
     if symbol_info is None:
         error_quit(f"{symbol} não foi encontrado, não é possível chamar order_check()")
@@ -61,3 +60,4 @@ def check_volume(vol, symbol):
     minvol = mt5.symbol_info(symbol).volumelow
     if vol < minvol or vol > maxvol:
         error_quit(f'Volume Selecionado: {vol}\nVolume Mínimo: {minvol}\nVolume Máximo: {maxvol}')
+        

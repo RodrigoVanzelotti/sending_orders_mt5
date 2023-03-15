@@ -55,13 +55,13 @@ request = {
     "volume": volume,
     "type": mt5.ORDER_TYPE_BUY,         # ordem de mercado para compra
     "price": price,                     # preço ask
-    "sl": price - 100 * point,          # não é necessário
-    "tp": price + 100 * point,          # não é necessário
-    "deviation": deviation,
-    "magic": 234000,
-    "comment": "asimov python script open",
-    "type_time": mt5.ORDER_TIME_GTC,            # A ordem permanecerá na fila até ser tirada
-    "type_filling": mt5.ORDER_FILLING_RETURN,   # Ordem manual
+    # "sl": price - 100 * point,          # não é necessário
+    # "tp": price + 100 * point,          # não é necessário
+    # "deviation": deviation,
+    # "magic": 234000,
+    # "comment": "asimov python script open",
+    # "type_time": mt5.ORDER_TIME_GTC,            # A ordem permanecerá na fila até ser tirada
+    # "type_filling": mt5.ORDER_FILLING_RETURN,   # Ordem manual
 }
  
 # enviamos a solicitação de negociação
